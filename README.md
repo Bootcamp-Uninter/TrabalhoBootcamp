@@ -17,6 +17,8 @@ Sistema de gerenciamento de medicamentos — Bootcamp de Engenharia de Software 
 | Lucas Santos | 5285287 | [@lucas-glsantos](https://github.com/lucas-glsantos) |
 | Renata Couto | 3833684 | [@recouto3](https://github.com/recouto3) |
 | Weden Gabriel da Silva Gomes | 4170826 | [@wedengabriel](https://github.com/wedengabriel) |
+| Thiago Bianna Pessanha da Cruz | 5666891 | [@thiagobianna](https://github.com/thiagobianna) |
+
 ---
 
 ## ⚙️ Pré-requisitos
