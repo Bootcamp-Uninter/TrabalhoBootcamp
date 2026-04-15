@@ -14,7 +14,7 @@ Sistema de gerenciamento de medicamentos — Bootcamp de Engenharia de Software 
 | Gabriela de Castro Laurindo | 5215280 | [@gabicastrum](https://github.com/gabicastrum) |
 | Jeremias Marques | 5793710 | [@jeremarques](https://github.com/jeremarques) |
 | Laion Silvério de Oliveira | 5654622 | [@laionsilverio](https://github.com/laionsilverio) |
-| Lucas Santos | 5285287 | [@ incluir](https://github.com/ incluir) |
+| Lucas Santos | 5285287 | [@lucas-glsantos](https://github.com/lucas-glsantos) |
 | Renata Couto | 3833684 | [@recouto3](https://github.com/recouto3) |
 | Weden Gabriel da Silva Gomes | 4170826 | [@wedengabriel](https://github.com/wedengabriel) |
 ---
