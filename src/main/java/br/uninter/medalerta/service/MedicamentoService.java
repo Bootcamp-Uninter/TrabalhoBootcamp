@@ -30,12 +30,22 @@ public class MedicamentoService {
 
     public Medicamento atualizar(Integer id, Medicamento novoMedicamento) {
         Medicamento existente = buscarPorId(id);
-
-        existente.setNomeComercial(novoMedicamento.getNomeComercial());
-        existente.setNomeGenerico(novoMedicamento.getNomeGenerico());
-        existente.setQuantidade(novoMedicamento.getQuantidade());
-        existente.setFormaUso(novoMedicamento.getFormaUso());
-        existente.setObservacao(novoMedicamento.getObservacao());
+        
+        if (novoMedicamento.getNomeComercial() != null && !novoMedicamento.getNomeComercial().isEmpty()) {
+            existente.setNomeComercial(novoMedicamento.getNomeComercial());
+        }
+        if (novoMedicamento.getNomeGenerico() != null && !novoMedicamento.getNomeGenerico().isEmpty()) {
+            existente.setNomeGenerico(novoMedicamento.getNomeGenerico());
+        }
+        if (novoMedicamento.getQuantidade() != null) {
+            existente.setQuantidade(novoMedicamento.getQuantidade());
+        }
+        if (novoMedicamento.getFormaUso() != null && !novoMedicamento.getFormaUso().isEmpty()) {
+            existente.setFormaUso(novoMedicamento.getFormaUso());
+        }
+        if (novoMedicamento.getObservacao() != null && !novoMedicamento.getObservacao().isEmpty()) {
+            existente.setObservacao(novoMedicamento.getObservacao());
+        }
 
         return repository.save(existente);
     }

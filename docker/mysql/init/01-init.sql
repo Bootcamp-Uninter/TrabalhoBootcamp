@@ -66,5 +66,5 @@ CREATE TABLE Estoque (
     FOREIGN KEY (idMedicamento) REFERENCES Medicamento(idMedicamento)
 );
 
---INSERT IGNORE INTO Usuario (nome, telefone, email) VALUES ('Alice', '123456789', 'alice@example.com');
---INSERT IGNORE INTO Medicamento (nomeComercial, nomeGenerico, quantidade, formaUso, observacao) VALUES ('Paracetamol', 'Paracetamol', 'unidade', 'oral', 'Tomar 1 comprimido a cada 6 horas');
+INSERT IGNORE INTO Usuario (nome, telefone, email) VALUES ('Alice', '123456789', 'alice@example.com');
+INSERT IGNORE INTO Medicamento (nomeComercial, nomeGenerico, quantidade, formaUso, observacao) VALUES ('Paracetamol', 'Paracetamol', 'unidade', 'oral', 'Tomar 1 comprimido a cada 6 horas');

@@ -147,6 +147,22 @@ public class App implements CommandLineRunner {
         System.out.println("Usuário removido com sucesso.");
     }
 
+    private void displayMedicamentos(List<Medicamento> lista) {
+        System.out.printf("%-5s | %-25s | %-20s | %-12s | %-15s | %-25s%n", 
+                "ID", "Nome Comercial", "Nome Genérico", "Qtd/Tipo", "Forma de Uso", "Observação");
+        System.out.println("-".repeat(117));
+
+        for (Medicamento m : lista) {
+            System.out.printf("%-5d | %-25s | %-20s | %-12s | %-15s | %-25s%n",
+                    m.getIdMedicamento(),
+                    m.getNomeComercial() != null ? m.getNomeComercial() : "",
+                    m.getNomeGenerico() != null ? m.getNomeGenerico() : "",
+                    m.getQuantidade() != null ? m.getQuantidade().name() : "",
+                    m.getFormaUso() != null ? m.getFormaUso() : "",
+                    m.getObservacao() != null ? m.getObservacao() : "");
+        }
+    }
+
     private void menuMedicamento(Scanner sc) {
         int opcao;
         do {
@@ -178,7 +194,7 @@ public class App implements CommandLineRunner {
         System.out.println("\nCadastro de Medicamento");
         m.setNomeComercial(lerTexto(sc, "Nome comercial: "));
         m.setNomeGenerico(lerTextoOpcional(sc, "Nome genérico (vazio para null): "));
-        m.setQuantidade(lerQuantidadeTipo(sc));
+        m.setQuantidade(lerQuantidadeTipo(sc, true));
         m.setFormaUso(lerTextoOpcional(sc, "Forma de uso (vazio para null): "));
         m.setObservacao(lerTextoOpcional(sc, "Observação (vazio para null): "));
 
@@ -192,24 +208,39 @@ public class App implements CommandLineRunner {
             System.out.println("Nenhum Medicamento encontrado.");
             return;
         }
-        lista.forEach(System.out::println);
+        displayMedicamentos(lista);
     }
 
     private void buscarMedicamentoPorId(Scanner sc) {
         Integer id = lerInteiro(sc, "ID do Medicamento: ");
-        Medicamento Medicamento = medicamentoService.buscarPorId(id);
-        System.out.println(Medicamento);
+        Medicamento medicamento = medicamentoService.buscarPorId(id);
+        displayMedicamentos(List.of(medicamento));
     }
 
     private void atualizarMedicamento(Scanner sc) {
         Integer id = lerInteiro(sc, "ID do Medicamento a atualizar: ");
 
         Medicamento m = new Medicamento();
-        m.setNomeComercial(lerTexto(sc, "Novo nome comercial: "));
-        m.setNomeGenerico(lerTextoOpcional(sc, "Novo nome genérico (vazio para null): "));
-        m.setQuantidade(lerQuantidadeTipo(sc));
-        m.setFormaUso(lerTextoOpcional(sc, "Nova forma de uso (vazio para null): "));
-        m.setObservacao(lerTextoOpcional(sc, "Nova observação (vazio para null): "));
+        String nomeComercial = lerTextoOpcional(sc, "Novo nome comercial (vazio para manter): ");
+        if (nomeComercial != null && !nomeComercial.isEmpty()) {
+            m.setNomeComercial(nomeComercial);
+        }
+        String nomeGenerico = lerTextoOpcional(sc, "Novo nome genérico (vazio para manter): ");
+        if (nomeGenerico != null && !nomeGenerico.isEmpty()) {
+            m.setNomeGenerico(nomeGenerico);
+        }
+        QuantidadeTipo quantidade = lerQuantidadeTipo(sc, false);
+        if (quantidade != null) {
+            m.setQuantidade(quantidade);
+        }
+        String formaUso = lerTextoOpcional(sc, "Nova forma de uso (vazio para manter): ");
+        if (formaUso != null && !formaUso.isEmpty()) {
+            m.setFormaUso(formaUso);
+        }
+        String observacao = lerTextoOpcional(sc, "Nova observação (vazio para manter): ");
+        if (observacao != null && !observacao.isEmpty()) {
+            m.setObservacao(observacao);
+        }
 
         Medicamento atualizado = medicamentoService.atualizar(id, m);
         System.out.println("Medicamento atualizado: " + atualizado);
@@ -382,12 +413,18 @@ public class App implements CommandLineRunner {
         return valor.isEmpty() ? null : valor;
     }
 
-    private QuantidadeTipo lerQuantidadeTipo(Scanner sc) {
+    private QuantidadeTipo lerQuantidadeTipo(Scanner sc, Boolean obrigatorio) {
         while (true) {
-            System.out.print("Quantidade [unidade/ml]: ");
+            System.out.print("Quantidade [unidade/ml]" + (obrigatorio ? " (obrigatório)" : " (opcional)") + ": ");
             String valor = sc.nextLine().trim();
+            if (valor.isEmpty() && obrigatorio) {
+                throw new RuntimeException("Campo obrigatório.");
+            }
+            if (valor.isEmpty() && !obrigatorio) {
+                return null;
+            }
             try {
-                return QuantidadeTipo.valueOf(valor);
+                return QuantidadeTipo.valueOf(valor.toUpperCase());
             } catch (Exception e) {
                 System.out.println("Valor inválido. Use: unidade ou ml.");
             }
