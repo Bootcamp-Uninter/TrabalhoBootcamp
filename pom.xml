@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.com.medalerta</groupId>
+    <groupId>br.uninter.medalerta</groupId>
     <artifactId>medalerta</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>medalerta</name>
