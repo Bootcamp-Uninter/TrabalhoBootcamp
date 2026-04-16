@@ -15,8 +15,8 @@ public class MedicamentoService {
         this.repository = repository;
     }
 
-    public Medicamento salvar(Medicamento Medicamento) {
-        return repository.save(Medicamento);
+    public Medicamento salvar(Medicamento medicamento) {
+        return repository.save(medicamento);
     }
 
     public List<Medicamento> listarTodos() {
@@ -41,7 +41,7 @@ public class MedicamentoService {
     }
 
     public void deletar(Integer id) {
-        Medicamento Medicamento = buscarPorId(id);
-        repository.delete(Medicamento);
+        Medicamento medicamento = buscarPorId(id);
+        repository.delete(medicamento);
     }
 }
