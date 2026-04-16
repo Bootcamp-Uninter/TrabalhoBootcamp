@@ -4,55 +4,63 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "Usuario")
+@Entity 
+@Table(name = "Usuario") 
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "idUsuario") 
+    private Integer idUsuario; 
 
-    @Column(nullable = false, length = 100)
+    @NotBlank // ALTERADO ✅
+    @Size(max = 100) // // ALTERADO ✅
+    @Column(nullable = false, length = 100) 
     private String nome;
 
-    @Column(nullable = false, length = 20)
+    @NotBlank // ALTERADO ✅
+    @Pattern(regexp = "\\d{10,11}") // ALTERADO ✅
+    @Column(nullable = false, length = 20) 
     private String telefone;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank  // ALTERADO ✅
+    @Email  // ALTERADO ✅
+    @Column(nullable = false, length = 100) 
     private String email;
 
-    @Column(length = 100)
+    @Column(length = 100) 
     private String enderecoRua;
 
-    private Integer enderecoNumero;
+    @Column // ALTERADO ✅
+    private Integer enderecoNumero; 
 
-    @Column(length = 50)
+    @Column(length = 50) 
     private String enderecoComplemento;
 
-    @Column(length = 50)
+    @Column(length = 50) 
     private String enderecoBairro;
 
-    @Column(length = 10)
+    @Column(length = 10) 
     private String enderecoCEP;
 
-    @Column(length = 50)
+    @Column(length = 50) 
     private String enderecoCidade;
 
-    @Column(length = 2)
+    @Column(length = 2) 
     private String enderecoEstado;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = false)
+    // RELACIONAMENTO (IMPORTANTE)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) // ALTERADO ✅
     private List<UsuarioMedicamento> usuarioMedicamentos = new ArrayList<>();
 
-    public Usuario() {
+    public Usuario() { 
     }
 
-    public Integer getIdUsuario() {
+    public Integer getIdUsuario() { 
         return idUsuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(Integer idUsuario) { 
         this.idUsuario = idUsuario;
     }
 
@@ -140,24 +148,28 @@ public class Usuario {
         return usuarioMedicamentos;
     }
 
-    public void setUsuarioMedicamentos(List<UsuarioMedicamento> usuarioMedicamentos) {
-        this.usuarioMedicamentos = usuarioMedicamentos;
-    }
+    public void adicionarMedicamento(UsuarioMedicamento um) {
+    if (um == null) return;
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "idUsuario=" + idUsuario +
-                ", nome='" + nome + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", email='" + email + '\'' +
-                ", enderecoRua='" + enderecoRua + '\'' +
-                ", enderecoNumero=" + enderecoNumero +
-                ", enderecoComplemento='" + enderecoComplemento + '\'' +
-                ", enderecoBairro='" + enderecoBairro + '\'' +
-                ", enderecoCEP='" + enderecoCEP + '\'' +
-                ", enderecoCidade='" + enderecoCidade + '\'' +
-                ", enderecoEstado='" + enderecoEstado + '\'' +
-                '}';
+    if (!usuarioMedicamentos.contains(um)) {
+        usuarioMedicamentos.add(um);
+        um.setUsuario(this);
     }
+}
+
+public void removerMedicamento(UsuarioMedicamento um) {
+    if (um == null) return;
+
+    if (usuarioMedicamentos.remove(um)) {
+        um.setUsuario(null);
+    }
+}
+
+   @Override
+public String toString() {
+    return "Usuario{" +
+            "idUsuario=" + idUsuario +
+            ", nome='" + nome + '\'' +
+            ", email='" + email + '\'' +
+            '}';
 }
